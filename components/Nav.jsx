@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
-  const {data:session} = useSession();
+  const { data: session } = useSession();
 
-  const [toggleDropdown, setToggleDropdown] = useState(false);
   const [providers, setProviders] = useState(null);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -20,12 +20,12 @@ const Nav = () => {
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
-      <Link href="/" className="flex flex-center gap-2">
+      <Link href="/" className="flex gap-2 flex-center">
         <Image
           src="/assets/images/logo.svg"
+          alt="logo"
           width={30}
           height={30}
-          alt="logo"
           className="object-contain"
         />
         <p className="logo_text">Promption</p>
@@ -36,18 +36,20 @@ const Nav = () => {
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
-              Create post
+              Create Post
             </Link>
+
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
             </button>
+
             <Link href="/profile">
               <Image
                 src={session?.user.image}
-                alt="profile"
-                className="rounded-full"
                 width={37}
                 height={37}
+                className="rounded-full"
+                alt="profile"
               />
             </Link>
           </div>
@@ -76,14 +78,13 @@ const Nav = () => {
           <div className="flex">
             <Image
               src={session?.user.image}
-              alt="profile"
-              className="rounded-full"
               width={37}
               height={37}
-              onClick={() => {
-                setToggleDropdown((prev) => !prev);
-              }}
+              className="rounded-full"
+              alt="profile"
+              onClick={() => setToggleDropdown(!toggleDropdown)}
             />
+
             {toggleDropdown && (
               <div className="dropdown">
                 <Link
